@@ -11,11 +11,10 @@ public class GradeEstimator {
 	private int[] categoryWeights;
 	private ScoreList scoreList;
 	private Scanner gradesIn;
+	private String gradeInfo;
+	private File file;
 	
-	public GradeEstimator(String gradeInfo) {
-		gradesIn = null;
-		scoreList = new ScoreList();
-	}
+	public GradeEstimator(String gradeInfo) {}
 	
 	
 	public static void main(String[] args) {
@@ -48,10 +47,10 @@ public class GradeEstimator {
 		GradeEstimator gradeEstimator = new GradeEstimator(gradeInfo);
 		
 		// Create new File with given filename
-		File file = new File(gradeInfo);
+		gradeEstimator.file = new File(gradeEstimator.gradeInfo);
 		
 		// Create new Scanner reference to read said file
-		gradeEstimator.gradesIn = new Scanner(file);
+		gradeEstimator.gradesIn = new Scanner(gradeEstimator.file);
 		
 		// Serves as a counter for the Array initializing
 		int i = 0;
@@ -132,6 +131,8 @@ public class GradeEstimator {
 		
 		gradeEstimator.gradesIn.nextLine();
 		
+		gradeEstimator.scoreList = new ScoreList();
+		
 		while (gradeEstimator.gradesIn.hasNextLine()) {
 			gradeEstimator.scoreList.add(
 					new Score(gradeEstimator.gradesIn.next(), 
@@ -153,4 +154,5 @@ public class GradeEstimator {
 		return report;
 	}
 
+	
 }

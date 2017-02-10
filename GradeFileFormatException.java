@@ -3,7 +3,7 @@
 // PROJECT:          p1
 // FILE:             GradeFileFormatException
 //
-// Author: Meggie Cook, 
+// Author: Meggie Cook, j
 // Author1: Meggie Cook, mcook24@wisc.edu, mcook24, Lecture 002
 //
 //////////////////////////// 80 columns wide //////////////////////////////////

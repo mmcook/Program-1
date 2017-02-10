@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 public class ScoreIterator implements ScoreIteratorADT<Score>, Iterator<Score>{
 	//Variable of type ScoreList to store the list of scores
 	private ScoreList scorelist;
-	//Variable of type into so store the current position
+	//Variable of type int so store the current position
 	private int currPos;
 	//Variable of type string to store a category
 	private String category;

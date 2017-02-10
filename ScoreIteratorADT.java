@@ -31,7 +31,7 @@ public interface ScoreIteratorADT<E>{
 	 * 
 	 * @return true if there is another score
 	 */
-	boolean hasNext();
+	boolean hasNext(String category);
 	
 	/**
 	 * Generic type, returns next input before a space. 
@@ -42,7 +42,7 @@ public interface ScoreIteratorADT<E>{
 	 *
 	 * @return next input of a generic type or type specified
 	 */
-	E next();
+	E next(String category);
 	
 	
 }

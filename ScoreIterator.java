@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -19,20 +18,19 @@ import java.util.NoSuchElementException;
 * 
 * @authors Aseel Albeshri, Cory Burich, Margaret Cook, Jessica Fernandes, 
 * Cody Kairis, Jacob Vande Walle
-
 /**
  * This class acts as an indirect access iterator. 
  * It implements the ScoreIteratorADT and iterates through the given scores in
  *  ScoreList that match a specified category.
  *
  */
-public class ScoreIterator implements ScoreIteratorADT<Score>, Iterator<Score>{
+public class ScoreIterator implements ScoreIteratorADT<Score> {
 	//Variable of type ScoreList to store the list of scores
-	private ScoreList scorelist;
-	//Variable of type int so store the current position
+	private ScoreList scoreList;
+	//Variable of type int to store the current position
 	private int currPos;
 	//Variable of type string to store a category
-	private String category;
+	private Score tempScore = null;
 
 	/**
 	 * Initializes the instance fields to the passed values 
@@ -42,31 +40,53 @@ public class ScoreIterator implements ScoreIteratorADT<Score>, Iterator<Score>{
 	 * @param scorelist the given list of scores
 	 * @param category the given category
 	 */
-	public ScoreIterator(ScoreList scorelist, String category){
-		this.scorelist = scorelist;
-		this.category = category;
+	public ScoreIterator(ScoreList scorelist){
+		this.scoreList = scorelist;
 		currPos = 0;
 	}
 	/**
-	 * Method used to check if scorelist has a next item
-	 * @return true if scoreList is bigger than current position, false otherwise
+	 * Method used to check if scoreList has a next item with the given category
+	 * 
+	 * @return true if scoreList has a Score with the given category, otherwise
+	 * return false
 	 */
-	public boolean hasNext(){
-		return currPos < scorelist.size();
+	
+	public boolean hasNext(String category){
+		for (int i = currPos; currPos < scoreList.size(); i++) {
+
+			if (scoreList.get(i).getCategory().equals(category.substring(0,1))) {
+				return true;
+			}
+		}
+		return false;
 	}
 	/**
-	 * Method used to get the next item in scorelist 
-	 * @throws NoSuchElementException if scoreList does not have a next item
-	 * @return next item in scorelist
+	 * Method used to get the next item in scoreList 
+	 * @throws NoSuchElementException if scoreList does not have a next item 
+	 * with the given category
+	 * 
+	 * @return next item in scoreList with the given category
 	 */
-	public Score next(){
-		if (!hasNext()) {
+	public Score next(String category){
+		if (!hasNext(category)) {
 			throw new NoSuchElementException();
 		}
-
+		
+		/* This is what we had before
+		
 		Score result = scorelist.get(currPos);
 		currPos++;
 		return result;
+		*/
+		
+		while (hasNext(category)) {
+			tempScore = scoreList.get(currPos);
+			currPos++;
+			
+			if (tempScore.getCategory().equals(category.substring(0,1))) {
+				break;
+			}
+		}
+		return tempScore;
 	}
-
 }

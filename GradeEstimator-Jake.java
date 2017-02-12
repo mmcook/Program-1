@@ -211,7 +211,7 @@ public class GradeEstimator {
 			double unweightedScore = totalScore / numScores;
 			//System.out.println(unweightedScore);
 			weightedScore[i] = unweightedScore * (categoryWeights[i] / 100.0);
-			System.out.println(weightedScore[i]);
+			
 			String estimateScore = "\t" + weightedScore[i] +"% = " + unweightedScore 
 									+ "% of " + categoryWeights[i]
 									+ "% for " + categories[i] + "\n"; 

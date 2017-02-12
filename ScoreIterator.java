@@ -52,8 +52,11 @@ public class ScoreIterator implements ScoreIteratorADT<Score> {
 	 */
 	
 	public boolean hasNext(String category){
-		for (int i = currPos; currPos < scoreList.size(); i++) {
-
+		
+		
+		
+		for (int i = currPos; i < scoreList.size(); i++) {
+			
 			if (scoreList.get(i).getCategory().equals(category.substring(0,1))) {
 				return true;
 			}

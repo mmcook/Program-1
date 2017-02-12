@@ -209,10 +209,9 @@ public class GradeEstimator {
 			
 			//The unweighted score of this assignment
 			double unweightedScore = totalScore / numScores;
-			
-			weightedScore[i] = unweightedScore * (categoryWeights[i] / 100);
-			
-			
+			//System.out.println(unweightedScore);
+			weightedScore[i] = unweightedScore * (categoryWeights[i] / 100.0);
+			System.out.println(weightedScore[i]);
 			String estimateScore = "\t" + weightedScore[i] +"% = " + unweightedScore 
 									+ "% of " + categoryWeights[i]
 									+ "% for " + categories[i] + "\n"; 
@@ -222,7 +221,7 @@ public class GradeEstimator {
 		estimateReport = estimateReport.concat("--------------------------------\n");
 		
 		//Add up the weighted scores to determine the total weighted percentage
-		for(int i = 0; i < numWeighted; i++)
+		for(int i = 0; i < weightedScore.length; i++)
 		{
 			totalWeightedPercent += weightedScore[i];
 		}

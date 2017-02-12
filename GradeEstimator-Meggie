@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 public class GradeEstimator {
 	
-	private ScoreList scorelist;
-	
 	private String[] letterGrades;
 	private int[] thresholds;
 	private String[] categories;
@@ -133,6 +131,8 @@ public class GradeEstimator {
 			
 			gradeEstimator.gradesIn.nextLine();
 			
+			gradeEstimator.scoreList = new ScoreList();
+			
 			while (gradeEstimator.gradesIn.hasNextLine()) {
 				
 				//Add the name, points earned and total points possible into the ScoreList
@@ -171,15 +171,15 @@ public class GradeEstimator {
 		double totalWeightedPercent = 0;
 		
 		//Show the percentage for each assignment
-		for(int i = 0; i < scorelist.size(); i++)
+		for(int i = 0; i < scoreList.size(); i++)
 		{
-			String percentScore = scorelist.get(i).getName() + "\t" + 
-									scorelist.get(i).getPercent() + "\n";
+			String percentScore = scoreList.get(i).getName() + "\t" + 
+									scoreList.get(i).getPercent() + "\n";
 			estimateReport = estimateReport.concat(percentScore);
 		}
 		
 		estimateReport = estimateReport.concat("Grade estimate is based on " + 
-						scorelist.size() + " scores.\n");
+						scoreList.size() + " scores.\n");
 		
 		//Show the weighted and unweighted percentage of each category
 		for(int i = 0; i < categories.length; i++)

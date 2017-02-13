@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Semester:         CS367 Spring 2016 
 // PROJECT:          program1
-// FILE:             ScoreIteratorADT.java
+// FILE:             ScoreList.java
 //
 // Authors: (Team 42) Aseel Albeshri, Cory Burich, Margaret Cook, 
 //          Jessica Fernandes, Cody Kairis, Jacob Vande Walle

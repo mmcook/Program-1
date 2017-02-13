@@ -14,10 +14,7 @@ import java.util.NoSuchElementException;
 //Author5: Cody Kairis, kairis@wisc.edu, kairis, lecture 002
 //Author6: Jacob Vande Walle, jvandewalle@wisc.edu, jvandewalle, lecture 002
 //
-/**
-* 
-* @authors Aseel Albeshri, Cory Burich, Margaret Cook, Jessica Fernandes, 
-* Cody Kairis, Jacob Vande Walle
+
 /**
  * This class acts as an indirect access iterator. 
  * It implements the ScoreIteratorADT and iterates through the given scores in

@@ -3,14 +3,17 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 public class GradeEstimator {
 	
 	private ScoreList scorelist;
 	
 	private String[] letterGrades;
+	private String[] fileLines;
 	private int[] thresholds;
 	private String[] categories;
-	private int[] categoryWeights;
+	private double[] categoryWeights;
 	private ScoreList scoreList;
 	private Scanner gradesIn;
 	private int numLG, numCat, numWeighted;
@@ -51,8 +54,7 @@ public class GradeEstimator {
 	public static GradeEstimator createGradeEstimatorFromFile( String gradeInfo ) 
 		      throws FileNotFoundException, GradeFileFormatException {
 		
-		//try
-		//{
+		
 			// Create new GradeEstimator instance
 			GradeEstimator gradeEstimator = new GradeEstimator();
 			
@@ -65,97 +67,83 @@ public class GradeEstimator {
 			// Serves as a counter for the Array initializing
 			int i = 0;
 			
+			gradeEstimator.fileLines = new String[100];
+			
+			while(gradeEstimator.gradesIn.hasNextLine()) {
+			
+				gradeEstimator.fileLines[i] = gradeEstimator.gradesIn.nextLine();
+				i++;
+			}
+			
+			while (i < 100) {
+				gradeEstimator.fileLines[i] = "null";
+				i++;
+			}
+			
+			
 			// Initializes letterGrades as an Array with size 100 (just because)
-			gradeEstimator.letterGrades = new String[100];
+			gradeEstimator.letterGrades = gradeEstimator.fileLines[0].split(" ");
 			
 			// While there is data on the line, take it in, make sure it isn't a 
 			// comment or the end of the line, and then add it to the array
-			while(gradeEstimator.gradesIn.hasNext()) {
-				
-				String tempNext = gradeEstimator.gradesIn.next();
-				
-				if (!tempNext.equals("#") || tempNext.equals("\n")) {
-					gradeEstimator.letterGrades[i] = tempNext;
-					gradeEstimator.numLG++;
-					i++;
-				}
-				else {
-					gradeEstimator.gradesIn.nextLine();
-					break;
-				}
-			}
 			
-			// This keeps track of the number of letter grades, that way thresholds
-			// doesn't need to be huge as well
-			int maxNumOfGrades = i;
 			
-			// Reset counter i
-			i = 0;
+			
 			
 			// Initialize the array thresholds to be the size of the number of 
 			// letter grades
-			gradeEstimator.thresholds = new int[maxNumOfGrades + 1];
+			String[] tempThresholds = gradeEstimator.fileLines[3].split(" ");
 			
-			// While there are still numbers on the line add them to the array
-			while(gradeEstimator.gradesIn.hasNextInt()) {
-				gradeEstimator.thresholds[i] = gradeEstimator.gradesIn.nextInt();
-				i++;
-			}
-			
-			gradeEstimator.gradesIn.nextLine();
-			
-			gradeEstimator.categories = new String[10];
-			i = 0;
-			
-			while(gradeEstimator.gradesIn.hasNext()) {
-				
-				String tempNext = gradeEstimator.gradesIn.next();
-				
-				if (!tempNext.equals("#") || tempNext.equals("\n")) {
-					gradeEstimator.categories[i] = tempNext;
-					gradeEstimator.numCat++;
-					i++;
-				}
-				
-				else {
-					gradeEstimator.gradesIn.nextLine();
+			gradeEstimator.thresholds = new int[tempThresholds.length];
+					
+			for (int z = 0; z < tempThresholds.length; z++) {
+				if (tempThresholds[z].equals("#") || tempThresholds[z].equals("")) {
 					break;
 				}
-			}
-			
-			int maxCategories = i;
-			i = 0;
-			
-			gradeEstimator.categoryWeights = new int[maxCategories + 1];
-			
-			while(gradeEstimator.gradesIn.hasNextInt()) {
-				gradeEstimator.categoryWeights[i] = gradeEstimator.gradesIn.nextInt();
-				i++;
+				gradeEstimator.thresholds[z] = Integer.parseInt(tempThresholds[z]);
+				
 			}
 			
 			
-			gradeEstimator.gradesIn.nextLine();
+			gradeEstimator.categories = gradeEstimator.fileLines[2].split(" ");
+			
+			int maxCategories = gradeEstimator.categories.length;
+			
+			
+			
+			String[] tempWeights = gradeEstimator.fileLines[3].split(" ");
+			
+			gradeEstimator.categoryWeights = new double[tempWeights.length];
+					
+			for (int y = 0; y < tempWeights.length; y++) {
+				if (tempThresholds[y].equals("#") || tempThresholds[y].equals("")) {
+					break;
+				}
+				
+				gradeEstimator.categoryWeights[y] = Double.parseDouble(tempWeights[y]);
+			}
+			 
 			
 			gradeEstimator.scoreList = new ScoreList();
 			
-			while (gradeEstimator.gradesIn.hasNextLine()) {
+			i = 4;
+			while (gradeEstimator.fileLines[i] != "null") {
 				
-				//Add the name, points earned and total points possible into the ScoreList
-				//for the rest of the input files
+				String[] tempScoreInfo = gradeEstimator.fileLines[i].split(" ");	
+				
+				
 				gradeEstimator.scoreList.add(
-						new Score(gradeEstimator.gradesIn.next(), 
-								gradeEstimator.gradesIn.nextInt(), 
-								gradeEstimator.gradesIn.nextInt()));
+						new Score(tempScoreInfo[0], 
+								Integer.parseInt(tempScoreInfo[1]), 
+								Integer.parseInt(tempScoreInfo[2])));
 				
-				gradeEstimator.gradesIn.nextLine();
+				
 			}
 	
 			return gradeEstimator;
 			
-		/*}catch(RuntimeException e)
-		{
-			throw new GradeFileFormatException();
-		}*/
+		
+		
 	}
 	
 	/**
@@ -165,7 +153,7 @@ public class GradeEstimator {
 	 * percentage.
 	 * @return estimateReport, a string variable that contains the estimate report for the grades
 	 */
-	public String getEstimateReport() {
+public String getEstimateReport() {
 		
 		ScoreIterator itr = new ScoreIterator(scoreList);
 		
@@ -215,7 +203,7 @@ public class GradeEstimator {
 			String estimateScore = "\t" + String.format("%7.2f", weightedScore[i])
 					+"% = " + String.format("%5.2f", unweightedScore) 
 									+ "% of " + 
-						  String.foramt("%2.0f", categoryWeights[i])
+						  String.format("%2.0f", categoryWeights[i])
 									+ "% for " + categories[i] + "\n"; 
 			estimateReport = estimateReport.concat(estimateScore);
 		}
